@@ -1,0 +1,110 @@
+/* Custom Styles for EduTutor Kenya */
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+    color: white;
+    margin-top: 20px;
+    padding: 60px 0;
+}
+
+.hero-section h1 {
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Stats Section */
+.stat-box {
+    border: 2px solid #4e73df;
+    border-radius: 10px;
+    transition: transform 0.3s;
+}
+
+.stat-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.stat-box h3 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+/* Card Styles */
+.card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.card-title {
+    color: #2e59d9;
+}
+
+/* Tutor Rating */
+.text-warning {
+    color: #f6c23e !important;
+}
+
+/* Step Icons */
+.step-icon {
+    font-size: 2rem;
+    transition: transform 0.3s;
+}
+
+.step-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: #4e73df;
+    border-color: #4e73df;
+}
+
+.btn-primary:hover {
+    background-color: #2e59d9;
+    border-color: #2653d4;
+}
+
+.btn-success {
+    background-color: #1cc88a;
+    border-color: #1cc88a;
+}
+
+/* Navbar Fix for Fixed Position */
+body {
+    padding-top: 76px;
+}
+
+/* Footer */
+footer a:hover {
+    color: #f8f9fa !important;
+    text-decoration: underline;
+}
+
+.social-icons a {
+    transition: transform 0.3s;
+}
+
+.social-icons a:hover {
+    transform: scale(1.2);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 40px 0;
+    }
+    
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+    
+    .stat-box h3 {
+        font-size: 1.8rem;
+    }
+}

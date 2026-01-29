@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h1 class="mb-4">Privacy Policy</h1>
+            <p class="text-muted">Last updated: {{ now.strftime('%B %d, %Y') }}</p>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="mb-3">1. Information We Collect</h4>
+                    <p>We collect information you provide directly to us when you:</p>
+                    <ul>
+                        <li>Create an account as a student or tutor</li>
+                        <li>Book tutoring sessions</li>
+                        <li>Complete your profile</li>
+                        <li>Communicate with us via email or contact forms</li>
+                        <li>Make payments through our platform</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="mb-3">2. How We Use Your Information</h4>
+                    <p>We use the information we collect to:</p>
+                    <ul>
+                        <li>Provide, maintain, and improve our services</li>
+                        <li>Process transactions and send related information</li>
+                        <li>Verify tutor credentials and qualifications</li>
+                        <li>Send technical notices, updates, and support messages</li>
+                        <li>Respond to your comments and questions</li>
+                        <li>Monitor and analyze trends and usage</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="mb-3">3. Information Sharing</h4>
+                    <p>We do not sell your personal information. We may share information:</p>
+                    <ul>
+                        <li>With tutors/students to facilitate sessions</li>
+                        <li>With service providers who assist our operations</li>
+                        <li>When required by law or to protect rights</li>
+                        <li>During business transfers (merger or acquisition)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="mb-3">4. Data Security</h4>
+                    <p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="mb-3">5. Your Rights</h4>
+                    <p>You have the right to:</p>
+                    <ul>
+                        <li>Access your personal information</li>
+                        <li>Correct inaccurate data</li>
+                        <li>Request deletion of your data</li>
+                        <li>Object to processing of your data</li>
+                        <li>Data portability</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="mb-3">6. Contact Us</h4>
+                    <p>If you have questions about this Privacy Policy, please contact us:</p>
+                    <p>
+                        <strong>Email:</strong> privacy@edututor.co.ke<br>
+                        <strong>Phone:</strong> +254 700 000 000<br>
+                        <strong>Address:</strong> Westlands, Nairobi, Kenya
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Set current date for privacy policy
+    document.addEventListener('DOMContentLoaded', function() {
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.querySelector('.text-muted').textContent = `Last updated: ${now.toLocaleDateString('en-US', options)}`;
+    });
+</script>
+{% endblock %}

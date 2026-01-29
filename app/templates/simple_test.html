@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Template Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 40px; background: #f8f9fa; }
+        .success { color: green; font-size: 24px; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1 class="success">✅ Template System is Working!</h1>
+    <p>Current time: {{ now }}</p>
+    <p>Template path: {{ template_path }}</p>
+    
+    <h2>Next Steps:</h2>
+    <ol>
+        <li><a href="/">Test Home Page</a></li>
+        <li><a href="/tutors">Test Tutors Page</a></li>
+        <li><a href="/register">Test Registration</a></li>
+    </ol>
+    
+    {% if error %}
+    <div class="error">
+        <h3>Error Detected:</h3>
+        <pre>{{ error }}</pre>
+    </div>
+    {% endif %}
+</body>
+</html>

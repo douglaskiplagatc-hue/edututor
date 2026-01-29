@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <img src="{{ url_for('static', filename='uploads/' + current_user.profile_picture) if current_user.profile_picture != 'default-avatar.png' else url_for('static', filename='images/default-avatar.png') }}" 
+                         class="rounded-circle mb-3" width="150" height="150" alt="Profile">
+                    <h4>{{ current_user.username }}</h4>
+                    <p class="text-muted">{{ current_user.get_user_type_display() }}</p>
+                    <p><i class="fas fa-map-marker-alt"></i> {{ current_user.location }}</p>
+                    <p><i class="fas fa-envelope"></i> {{ current_user.email }}</p>
+                    <p><i class="fas fa-phone"></i> {{ current_user.phone }}</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Account Info</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Member Since:</strong><br>{{ current_user.created_at.strftime('%B %d, %Y') }}</p>
+                    <p><strong>Last Login:</strong><br>
+                        {% if current_user.last_login %}
+                            {{ current_user.last_login.strftime('%B %d, %Y %I:%M %p') }}
+                        {% else %}
+                            Never
+                        {% endif %}
+                    </p>
+                    <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-danger w-100">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Edit Profile</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="" enctype="multipart/form-data">
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                {{ form.username.label(class="form-label") }}
+                                {{ form.username(class="form-control" + (" is-invalid" if form.username.errors else "")) }}
+                                {% for error in form.username.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.email.label(class="form-label") }}
+                                {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
+                                {% for error in form.email.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                {{ form.phone.label(class="form-label") }}
+                                {{ form.phone(class="form-control" + (" is-invalid" if form.phone.errors else "")) }}
+                                {% for error in form.phone.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.location.label(class="form-label") }}
+                                {{ form.location(class="form-select" + (" is-invalid" if form.location.errors else "")) }}
+                                {% for error in form.location.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            {{ form.profile_picture.label(class="form-label") }}
+                            {{ form.profile_picture(class="form-control" + (" is-invalid" if form.profile_picture.errors else "")) }}
+                            <small class="text-muted">Upload a profile picture (JPG, PNG, max 5MB)</small>
+                            {% for error in form.profile_picture.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="d-grid">
+                            {{ form.submit(class="btn btn-primary btn-lg") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            {% if current_user.user_type == 'tutor' %}
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Tutor Profile</h5>
+                </div>
+                <div class="card-body">
+                    {% set tutor_profile = Tutor.query.filter_by(user_id=current_user.id).first() %}
+                    {% if tutor_profile %}
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5>{{ tutor_profile.full_name }}</h5>
+                            <p class="mb-1"><strong>Subjects:</strong> {{ tutor_profile.subjects }}</p>
+                            <p class="mb-1"><strong>Rate:</strong> KSH {{ tutor_profile.hourly_rate }}/hour</p>
+                            <p class="mb-0"><strong>Rating:</strong> 
+                                <span class="text-warning">
+                                    {% for i in range(5) %}
+                                        {% if i < tutor_profile.rating|int %}
+                                            <i class="fas fa-star"></i>
+                                        {% else %}
+                                            <i class="far fa-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </span>
+                                ({{ tutor_profile.review_count }} reviews)
+                            </p>
+                        </div>
+                        <a href="#" class="btn btn-outline-primary">Edit Tutor Profile</a>
+                    </div>
+                    {% else %}
+                    <p>You haven't created a tutor profile yet.</p>
+                    <a href="{{ url_for('tutor.become_tutor') }}" class="btn btn-primary">Create Tutor Profile</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

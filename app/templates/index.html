@@ -1,0 +1,392 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section text-center py-5 bg-light rounded mb-5">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-3">Find Quality Home Tutors in Kenya</h1>
+        <p class="lead mb-4">Connect with verified tutors for personalized learning experiences. Online or in-person tutoring across all subjects and levels.</p>
+        
+        <!-- Search Form -->
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <form action="{{ url_for('main.tutors') }}" method="get" class="bg-white p-4 rounded shadow">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="subject" placeholder="Subject (e.g., Mathematics)">
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-select" name="location">
+                                <option value="">Any Location</option>
+                                <option value="Nairobi">Nairobi</option>
+                                <option value="Mombasa">Mombasa</option>
+                                <option value="Kisumu">Kisumu</option>
+                                <option value="Nakuru">Nakuru</option>
+                                <option value="Eldoret">Eldoret</option>
+                                <option value="Thika">Thika</option>
+                                <option value="Malindi">Malindi</option>
+                                <option value="Kitale">Kitale</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search"></i> Find Tutors
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section py-4 mb-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3">
+                <div class="stat-box p-3">
+                    <h3 class="text-primary">{{ stats.tutors }}+</h3>
+                    <p>Verified Tutors</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-box p-3">
+                    <h3 class="text-primary">{{ stats.subjects }}+</h3>
+                    <p>Subjects</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-box p-3">
+                    <h3 class="text-primary">{{ stats.students }}+</h3>
+                    <p>Happy Students</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-box p-3">
+                    <h3 class="text-primary">{{ stats.locations }}+</h3>
+                    <p>Locations in Kenya</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Tutors -->
+<section class="featured-tutors mb-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Featured Tutors</h2>
+        <div class="row">
+            {% if tutors %}
+                {% for tutor in tutors %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="{{ url_for('static', filename='uploads/' + tutor.user.profile_picture) if tutor.user.profile_picture != 'default-avatar.png' else url_for('static', filename='images/default-avatar.png') }}" 
+                                     class="rounded-circle me-3" width="60" height="60" alt="{{ tutor.full_name }}">
+                                <div>
+                                    <h5 class="card-title mb-0">{{ tutor.full_name }}</h5>
+                                    <div class="text-warning">
+                                        {% for i in range(5) %}
+                                            {% if i < tutor.rating|int %}
+                                                <i class="fas fa-star"></i>
+                                            {% else %}
+                                                <i class="far fa-star"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <small class="text-muted">({{ tutor.review_count }})</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="card-text">
+                                <i class="fas fa-book text-primary"></i> {{ tutor.subjects[:30] }}{% if tutor.subjects|length > 30 %}...{% endif %}<br>
+                                <i class="fas fa-map-marker-alt text-primary"></i> {{ tutor.user.location }}<br>
+                                <i class="fas fa-clock text-primary"></i> {{ tutor.experience_years }} years experience<br>
+                                <i class="fas fa-money-bill-wave text-primary"></i> KSH {{ tutor.hourly_rate }}/hr
+                            </p>
+                            <div class="d-grid gap-2">
+                                <a href="{{ url_for('main.tutor_detail', tutor_id=tutor.id) }}" class="btn btn-outline-primary">View Profile</a>
+                                <a href="{{ url_for('tutor.book_tutor', tutor_id=tutor.id) }}" class="btn btn-primary">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        <p class="mb-0">No featured tutors available at the moment. Check back soon!</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="text-center mt-3">
+            <a href="{{ url_for('main.tutors') }}" class="btn btn-outline-primary">View All Tutors →</a>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="how-it-works bg-light py-5 mb-5">
+    <div class="container">
+        <h2 class="text-center mb-5">How EduTutor Works</h2>
+        <div class="row">
+            <div class="col-md-4 text-center mb-4">
+                <div class="step-icon bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                    <i class="fas fa-search fa-2x"></i>
+                </div>
+                <h4>1. Find a Tutor</h4>
+                <p>Search for tutors by subject, location, or level. View profiles, ratings, and reviews.</p>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="step-icon bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                    <i class="fas fa-calendar-check fa-2x"></i>
+                </div>
+                <h4>2. Book a Session</h4>
+                <p>Choose your preferred time and schedule. Pay securely via M-Pesa.</p>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="step-icon bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                    <i class="fas fa-chalkboard-teacher fa-2x"></i>
+                </div>
+                <h4>3. Start Learning</h4>
+                <p>Connect with your tutor online or meet in person. Track your progress.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta-section text-center py-5">
+    <div class="container">
+        <h2 class="mb-4">Are You a Qualified Tutor?</h2>
+        <p class="lead mb-4">Join our platform and connect with students across Kenya. Set your own rates and schedule.</p>
+        {% if current_user.is_authenticated %}
+            {% if current_user.user_type != 'tutor' %}
+            <a href="{{ url_for('tutor.become_tutor') }}" class="btn btn-success btn-lg">
+                <i class="fas fa-user-plus"></i> Become a Tutor
+            </a>
+            {% else %}
+            <a href="{{ url_for('tutor.dashboard') }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-tachometer-alt"></i> Go to Dashboard
+            </a>
+            {% endif %}
+        {% else %}
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{{ url_for('auth.register') }}?type=tutor" class="btn btn-success btn-lg">
+                <i class="fas fa-chalkboard-teacher"></i> Sign Up as Tutor
+            </a>
+            <a href="{{ url_for('auth.register') }}?type=student" class="btn btn-primary btn-lg">
+                <i class="fas fa-user-graduate"></i> Sign Up as Student
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials bg-primary text-white py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">What Our Students Say</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="testimonial-card bg-white text-dark p-4 rounded h-100">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="fst-italic mb-3">"My math grades improved from a C to an A in just 2 months! The tutor was patient and explained concepts clearly."</p>
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h6 class="mb-0">John Mwangi</h6>
+                            <small class="text-muted">Form 3 Student, Nairobi</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="testimonial-card bg-white text-dark p-4 rounded h-100">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                    <p class="fst-italic mb-3">"As a working professional, I needed flexible tutoring for my CPA exams. Found the perfect tutor who works with my schedule."</p>
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h6 class="mb-0">Sarah Achieng</h6>
+                            <small class="text-muted">CPA Student, Kisumu</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="testimonial-card bg-white text-dark p-4 rounded h-100">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="fst-italic mb-3">"My son was struggling with physics. The tutor came to our home and within weeks, his confidence and grades improved dramatically!"</p>
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h6 class="mb-0">Mr. & Mrs. Otieno</h6>
+                            <small class="text-muted">Parents, Mombasa</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Subjects Offered -->
+<section class="subjects py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Popular Subjects</h2>
+        <div class="row">
+            <div class="col-md-3 col-6 mb-3">
+                <div class="subject-card text-center p-3 border rounded">
+                    <i class="fas fa-calculator fa-2x text-primary mb-2"></i>
+                    <h5>Mathematics</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="subject-card text-center p-3 border rounded">
+                    <i class="fas fa-flask fa-2x text-primary mb-2"></i>
+                    <h5>Chemistry</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="subject-card text-center p-3 border rounded">
+                    <i class="fas fa-bolt fa-2x text-primary mb-2"></i>
+                    <h5>Physics</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="subject-card text-center p-3 border rounded">
+                    <i class="fas fa-book fa-2x text-primary mb-2"></i>
+                    <h5>English</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="subject-card text-center p-3 border rounded">
+                    <i class="fas fa-dna fa-2x text-primary mb-2"></i>
+                    <h5>Biology</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="subject-card text-center p-3 border rounded">
+                    <i class="fas fa-code fa-2x text-primary mb-2"></i>
+                    <h5>Computer Science</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="subject-card text-center p-3 border rounded">
+                    <i class="fas fa-globe-africa fa-2x text-primary mb-2"></i>
+                    <h5>Kiswahili</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="subject-card text-center p-3 border rounded">
+                    <i class="fas fa-chart-line fa-2x text-primary mb-2"></i>
+                    <h5>Business Studies</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Trust Indicators -->
+<section class="trust-indicators bg-light py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center mb-4">
+                <i class="fas fa-shield-alt fa-3x text-success mb-3"></i>
+                <h4>Verified Tutors</h4>
+                <p>All tutors undergo background checks and credential verification.</p>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <i class="fas fa-lock fa-3x text-success mb-3"></i>
+                <h4>Secure Payments</h4>
+                <p>Pay securely via M-Pesa with money-back guarantee.</p>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <i class="fas fa-headset fa-3x text-success mb-3"></i>
+                <h4>24/7 Support</h4>
+                <p>Our support team is always ready to help you.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.hero-section {
+    background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+    color: white;
+    margin-top: 20px;
+}
+
+.hero-section h1 {
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.stat-box {
+    border: 2px solid #4e73df;
+    border-radius: 10px;
+    transition: transform 0.3s;
+}
+
+.stat-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.stat-box h3 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.subject-card {
+    transition: all 0.3s;
+}
+
+.subject-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    background-color: #f8f9fa;
+}
+
+.testimonial-card {
+    transition: transform 0.3s;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+}
+
+.step-icon {
+    transition: transform 0.3s;
+}
+
+.step-icon:hover {
+    transform: scale(1.1);
+}
+</style>
+{% endblock %}

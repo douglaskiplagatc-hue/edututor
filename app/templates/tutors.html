@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Find Qualified Tutors in Kenya</h1>
+    
+    <!-- Search Filters -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="GET" action="{{ url_for('main.tutors') }}" class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Subject</label>
+                    <input type="text" name="subject" class="form-control" placeholder="e.g., Mathematics" value="{{ request.args.get('subject', '') }}">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Location</label>
+                    <select name="location" class="form-select">
+                        <option value="">All Locations</option>
+                        <option value="Nairobi" {% if request.args.get('location') == 'Nairobi' %}selected{% endif %}>Nairobi</option>
+                        <option value="Mombasa" {% if request.args.get('location') == 'Mombasa' %}selected{% endif %}>Mombasa</option>
+                        <option value="Kisumu" {% if request.args.get('location') == 'Kisumu' %}selected{% endif %}>Kisumu</option>
+                        <option value="Nakuru" {% if request.args.get('location') == 'Nakuru' %}selected{% endif %}>Nakuru</option>
+                        <option value="Eldoret" {% if request.args.get('location') == 'Eldoret' %}selected{% endif %}>Eldoret</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Level</label>
+                    <select name="level" class="form-select">
+                        <option value="">All Levels</option>
+                        <option value="primary" {% if request.args.get('level') == 'primary' %}selected{% endif %}>Primary School</option>
+                        <option value="secondary" {% if request.args.get('level') == 'secondary' %}selected{% endif %}>Secondary School</option>
+                        <option value="university" {% if request.args.get('level') == 'university' %}selected{% endif %}>University</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Search Tutors
+                    </button>
+                    <a href="{{ url_for('main.tutors') }}" class="btn btn-outline-secondary">Clear Filters</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Tutors Grid -->
+    <div class="row">
+        {% if tutors.items %}
+            {% for tutor in tutors.items %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="{{ tutor.profile_picture or url_for('static', filename='images/default-avatar.png') }}" 
+                                 class="rounded-circle me-3" width="70" height="70" alt="{{ tutor.full_name }}">
+                            <div>
+                                <h5 class="card-title mb-0">{{ tutor.full_name }}</h5>
+                                <p class="text-muted mb-1">
+                                    <i class="fas fa-map-marker-alt"></i> {{ tutor.user.location }}
+                                </p>
+                                <div class="text-warning">
+                                    {% for i in range(5) %}
+                                        {% if i < tutor.rating|int %}
+                                            <i class="fas fa-star"></i>
+                                        {% else %}
+                                            <i class="far fa-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <small class="text-muted">({{ tutor.review_count }} reviews)</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p class="card-text">
+                            <strong>Subjects:</strong> {{ tutor.subjects }}<br>
+                            <strong>Level:</strong> {{ tutor.level|title }}<br>
+                            <strong>Experience:</strong> {{ tutor.experience_years }} years<br>
+                            <strong>Rate:</strong> KSH {{ tutor.hourly_rate }}/hour<br>
+                            <strong>Mode:</strong> {{ tutor.teaching_mode|replace('-', ' ')|title }}
+                        </p>
+                        
+                        <p class="card-text">{{ tutor.bio[:100] }}...</p>
+                        
+                        <div class="d-grid gap-2">
+                            <a href="{{ url_for('main.tutor_detail', tutor_id=tutor.id) }}" class="btn btn-outline-primary">View Profile</a>
+                            <a href="{{ url_for('tutor.book_tutor', tutor_id=tutor.id) }}" class="btn btn-primary">Book Session</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <h4>No tutors found matching your criteria.</h4>
+                    <p>Try adjusting your search filters or <a href="{{ url_for('main.tutors') }}">view all tutors</a>.</p>
+                    <p>Are you a tutor? <a href="{{ url_for('tutor.become_tutor') }}">Join our platform</a>!</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Pagination -->
+    {% if tutors.pages > 1 %}
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if tutors.has_prev %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('main.tutors', page=tutors.prev_num, subject=request.args.get('subject'), location=request.args.get('location'), level=request.args.get('level')) }}">
+                    Previous
+                </a>
+            </li>
+            {% endif %}
+            
+            {% for page_num in tutors.iter_pages(left_edge=2, left_current=2, right_current=3, right_edge=2) %}
+                {% if page_num %}
+                    {% if page_num == tutors.page %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ page_num }}</span>
+                    </li>
+                    {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('main.tutors', page=page_num, subject=request.args.get('subject'), location=request.args.get('location'), level=request.args.get('level')) }}">
+                            {{ page_num }}
+                        </a>
+                    </li>
+                    {% endif %}
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            
+            {% if tutors.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('main.tutors', page=tutors.next_num, subject=request.args.get('subject'), location=request.args.get('location'), level=request.args.get('level')) }}">
+                    Next
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

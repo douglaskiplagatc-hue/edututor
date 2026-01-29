@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="fas fa-calendar-check"></i> Book a Session with {{ tutor.full_name }}</h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info mb-4">
+                        <div class="d-flex">
+                            <div class="me-3">
+                                <img src="{{ tutor.profile_picture or url_for('static', filename='images/default-avatar.png') }}" 
+                                     class="rounded-circle" width="60" height="60" alt="{{ tutor.full_name }}">
+                            </div>
+                            <div>
+                                <h5 class="mb-1">{{ tutor.full_name }}</h5>
+                                <p class="mb-1"><i class="fas fa-book"></i> {{ tutor.subjects }}</p>
+                                <p class="mb-1"><i class="fas fa-money-bill-wave"></i> KSH {{ tutor.hourly_rate }}/hour</p>
+                                <p class="mb-0"><i class="fas fa-map-marker-alt"></i> {{ tutor.user.location }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form method="POST" action="">
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                {{ form.subject.label(class="form-label") }}
+                                {{ form.subject(class="form-control" + (" is-invalid" if form.subject.errors else "")) }}
+                                <small class="text-muted">e.g., Algebra, Calculus, Organic Chemistry</small>
+                                {% for error in form.subject.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.hours.label(class="form-label") }}
+                                {{ form.hours(class="form-control" + (" is-invalid" if form.hours.errors else "")) }}
+                                <small class="text-muted">Number of hours per session</small>
+                                {% for error in form.hours.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                {{ form.schedule_date.label(class="form-label") }}
+                                {{ form.schedule_date(class="form-control" + (" is-invalid" if form.schedule_date.errors else "")) }}
+                                {% for error in form.schedule_date.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.schedule_time.label(class="form-label") }}
+                                {{ form.schedule_time(class="form-select" + (" is-invalid" if form.schedule_time.errors else "")) }}
+                                {% for error in form.schedule_time.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form.location.label(class="form-label") }}
+                            {{ form.location(class="form-control" + (" is-invalid" if form.location.errors else ""), placeholder="e.g., Your home address, school, or leave blank for online") }}
+                            <small class="text-muted">
+                                {% if tutor.teaching_mode == 'online' %}
+                                This tutor only offers online sessions
+                                {% elif tutor.teaching_mode == 'in-person' %}
+                                Enter the location where you want the session
+                                {% else %}
+                                Optional for online sessions, required for in-person
+                                {% endif %}
+                            </small>
+                            {% for error in form.location.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="mb-4">
+                            {{ form.notes.label(class="form-label") }}
+                            {{ form.notes(class="form-control" + (" is-invalid" if form.notes.errors else ""), rows=3, placeholder="Any special requirements, topics to cover, or notes for the tutor...") }}
+                            {% for error in form.notes.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        
+                        <!-- Cost Summary -->
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5>Booking Summary</h5>
+                                <table class="table table-borderless mb-0">
+                                    <tr>
+                                        <td>Tutor Rate:</td>
+                                        <td class="text-end">KSH {{ tutor.hourly_rate }}/hour</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Hours:</td>
+                                        <td class="text-end">{{ form.hours.data or 1 }} hour(s)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Platform Fee (10%):</td>
+                                        <td class="text-end">KSH {{ (tutor.hourly_rate * (form.hours.data or 1) * 0.1)|int }}</td>
+                                    </tr>
+                                    <tr class="fw-bold">
+                                        <td>Total Amount:</td>
+                                        <td class="text-end text-success">KSH {{ (tutor.hourly_rate * (form.hours.data or 1) * 1.1)|int }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid">
+                            {{ form.submit(class="btn btn-primary btn-lg") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <!-- Tutor Info Card -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">About {{ tutor.full_name.split()[0] }}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="text-warning mb-2">
+                        {% for i in range(5) %}
+                            {% if i < tutor.rating|int %}
+                                <i class="fas fa-star"></i>
+                            {% else %}
+                                <i class="far fa-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                        <small class="text-muted">({{ tutor.review_count }} reviews)</small>
+                    </div>
+                    
+                    <p><strong>Experience:</strong> {{ tutor.experience_years }} years</p>
+                    <p><strong>Teaching Mode:</strong> {{ tutor.teaching_mode|replace('-', ' ')|title }}</p>
+                    <p><strong>Availability:</strong> {{ tutor.availability|replace('-', ' ')|title }}</p>
+                    
+                    <hr>
+                    
+                    <h6>What Students Say:</h6>
+                    <div class="bg-light p-3 rounded mt-2">
+                        <p class="mb-0"><i>"{{ tutor.full_name.split()[0] }} is an excellent tutor who explains concepts clearly."</i></p>
+                        <small class="text-muted">- Previous Student</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Booking Policy -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Booking Policies</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>24-hour cancellation</strong> for full refund
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Secure payment</strong> via M-Pesa
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Tutor confirmation</strong> required
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Rescheduling</strong> allowed up to 12 hours before
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Quality guarantee</strong> or your money back
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+// Calculate total cost when hours change
+document.getElementById('hours').addEventListener('input', function() {
+    const hours = this.value || 1;
+    const rate = {{ tutor.hourly_rate }};
+    const subtotal = rate * hours;
+    const fee = subtotal * 0.1;
+    const total = subtotal + fee;
+    
+    // Update display
+    document.querySelectorAll('.cost-display').forEach(el => {
+        if (el.classList.contains('subtotal')) {
+            el.textContent = 'KSH ' + subtotal.toLocaleString();
+        } else if (el.classList.contains('fee')) {
+            el.textContent = 'KSH ' + Math.round(fee).toLocaleString();
+        } else if (el.classList.contains('total')) {
+            el.textContent = 'KSH ' + Math.round(total).toLocaleString();
+        }
+    });
+});
+
+// Initialize date picker
+if (document.getElementById('schedule_date')) {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('schedule_date').min = today;
+    
+    // Set default to tomorrow
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    document.getElementById('schedule_date').value = tomorrow.toISOString().split('T')[0];
+}
+</script>
+{% endblock %}
+{% endblock %}

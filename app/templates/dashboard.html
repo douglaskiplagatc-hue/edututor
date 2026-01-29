@@ -1,0 +1,278 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    {% if current_user.user_type == 'tutor' %}
+    <!-- Tutor Dashboard -->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <img src="{{ tutor.profile_picture or url_for('static', filename='images/default-avatar.png') }}" 
+                         class="rounded-circle mb-3" width="100" height="100" alt="Profile">
+                    <h5>{{ tutor.full_name }}</h5>
+                    <p class="text-muted">{{ tutor.subjects }}</p>
+                    <div class="text-warning mb-2">
+                        {% for i in range(5) %}
+                            {% if i < tutor.rating|int %}
+                                <i class="fas fa-star"></i>
+                            {% else %}
+                                <i class="far fa-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                        <small>({{ tutor.review_count }})</small>
+                    </div>
+                    <a href="#" class="btn btn-outline-primary btn-sm">Edit Profile</a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">Quick Stats</h6>
+                </div>
+                <div class="card-body">
+                    <p class="mb-2"><strong>Earnings This Month:</strong><br>KSH {{ "{:,}".format(tutor.hourly_rate * 20) }}</p>
+                    <p class="mb-2"><strong>Total Students:</strong><br>15</p>
+                    <p class="mb-0"><strong>Response Rate:</strong><br>98%</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-9">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Tutor Dashboard</h2>
+                <a href="{{ url_for('main.tutor_detail', tutor_id=tutor.id) }}" class="btn btn-outline-primary">
+                    <i class="fas fa-eye"></i> View Public Profile
+                </a>
+            </div>
+            
+            <!-- Upcoming Sessions -->
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Upcoming Sessions</h5>
+                    <span class="badge bg-primary">{{ bookings|length }} bookings</span>
+                </div>
+                <div class="card-body">
+                    {% if bookings %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Subject</th>
+                                    <th>Date & Time</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for booking in bookings %}
+                                <tr>
+                                    <td>{{ booking.student.username }}</td>
+                                    <td>{{ booking.subject }}</td>
+                                    <td>{{ booking.schedule_date.strftime('%b %d, %Y') }} at {{ booking.schedule_time }}</td>
+                                    <td>
+                                        {% if booking.status == 'pending' %}
+                                        <span class="badge bg-warning">Pending</span>
+                                        {% elif booking.status == 'confirmed' %}
+                                        <span class="badge bg-success">Confirmed</span>
+                                        {% elif booking.status == 'completed' %}
+                                        <span class="badge bg-secondary">Completed</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="#" class="btn btn-outline-primary">View</a>
+                                            {% if booking.status == 'pending' %}
+                                            <a href="#" class="btn btn-outline-success">Confirm</a>
+                                            <a href="#" class="btn btn-outline-danger">Decline</a>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p class="text-muted text-center py-3">No upcoming sessions. New bookings will appear here.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-calendar-plus fa-3x text-primary mb-3"></i>
+                            <h5>Update Schedule</h5>
+                            <p class="text-muted">Set your availability for next week</p>
+                            <a href="#" class="btn btn-outline-primary">Update</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-chart-line fa-3x text-success mb-3"></i>
+                            <h5>View Analytics</h5>
+                            <p class="text-muted">Check your performance metrics</p>
+                            <a href="#" class="btn btn-outline-success">View</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-money-bill-wave fa-3x text-info mb-3"></i>
+                            <h5>Payment History</h5>
+                            <p class="text-muted">View your earnings and payments</p>
+                            <a href="#" class="btn btn-outline-info">View</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% else %}
+    <!-- Student/Parent Dashboard -->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <img src="{{ url_for('static', filename='images/default-avatar.png') }}" 
+                         class="rounded-circle mb-3" width="100" height="100" alt="Profile">
+                    <h5>{{ current_user.username }}</h5>
+                    <p class="text-muted">{{ current_user.user_type|title }}</p>
+                    <p><i class="fas fa-map-marker-alt"></i> {{ current_user.location }}</p>
+                    <a href="#" class="btn btn-outline-primary btn-sm">Edit Profile</a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">Learning Stats</h6>
+                </div>
+                <div class="card-body">
+                    <p class="mb-2"><strong>Tutors Booked:</strong><br>3</p>
+                    <p class="mb-2"><strong>Total Hours:</strong><br>15 hours</p>
+                    <p class="mb-0"><strong>Subjects:</strong><br>Mathematics, Physics</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-9">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>My Dashboard</h2>
+                <a href="{{ url_for('main.tutors') }}" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Find More Tutors
+                </a>
+            </div>
+            
+            <!-- My Bookings -->
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">My Bookings</h5>
+                    <span class="badge bg-primary">{{ bookings|length }} total</span>
+                </div>
+                <div class="card-body">
+                    {% if bookings %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Tutor</th>
+                                    <th>Subject</th>
+                                    <th>Date & Time</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for booking in bookings %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="{{ booking.tutor.profile_picture or url_for('static', filename='images/default-avatar.png') }}" 
+                                                 class="rounded-circle me-2" width="30" height="30" alt="{{ booking.tutor.full_name }}">
+                                            {{ booking.tutor.full_name }}
+                                        </div>
+                                    </td>
+                                    <td>{{ booking.subject }}</td>
+                                    <td>{{ booking.schedule_date.strftime('%b %d, %Y') }} at {{ booking.schedule_time }}</td>
+                                    <td>KSH {{ "{:,}".format(booking.total_cost) }}</td>
+                                    <td>
+                                        {% if booking.status == 'pending' %}
+                                        <span class="badge bg-warning">Pending</span>
+                                        {% elif booking.status == 'confirmed' %}
+                                        <span class="badge bg-success">Confirmed</span>
+                                        {% elif booking.status == 'completed' %}
+                                        <span class="badge bg-secondary">Completed</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="#" class="btn btn-outline-primary">View</a>
+                                            {% if booking.status == 'pending' %}
+                                            <a href="#" class="btn btn-outline-danger">Cancel</a>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+                        <h5>No Bookings Yet</h5>
+                        <p class="text-muted">You haven't booked any tutoring sessions yet.</p>
+                        <a href="{{ url_for('main.tutors') }}" class="btn btn-primary">Find a Tutor</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Recommended Tutors -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Recommended Tutors For You</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- This would be populated from database -->
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <img src="{{ url_for('static', filename='images/default-avatar.png') }}" 
+                                             class="rounded-circle me-2" width="40" height="40" alt="Tutor">
+                                        <div>
+                                            <h6 class="mb-0">John Kamau</h6>
+                                            <small class="text-muted">Mathematics</small>
+                                        </div>
+                                    </div>
+                                    <div class="text-warning mb-2">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                    <p class="mb-2"><small>KSH 800/hour • Nairobi</small></p>
+                                    <a href="#" class="btn btn-sm btn-outline-primary w-100">View Profile</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

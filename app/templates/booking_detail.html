@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0"><i class="fas fa-calendar-check"></i> Booking Details #{{ booking.id }}</h4>
+                    <span class="badge bg-{% if booking.status == 'confirmed' %}success{% elif booking.status == 'pending' %}warning{% elif booking.status == 'cancelled' %}danger{% else %}secondary{% endif %}">
+                        {{ booking.get_status_display() }}
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5>Tutor Information</h5>
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="{{ url_for('static', filename='uploads/' + booking.tutor.user.profile_picture) if booking.tutor.user.profile_picture != 'default-avatar.png' else url_for('static', filename='images/default-avatar.png') }}" 
+                                     class="rounded-circle me-3" width="60" height="60" alt="{{ booking.tutor.full_name }}">
+                                <div>
+                                    <h6 class="mb-0">{{ booking.tutor.full_name }}</h6>
+                                    <p class="text-muted mb-0">{{ booking.tutor.subjects }}</p>
+                                </div>
+                            </div>
+                            <p><i class="fas fa-phone text-primary"></i> {{ booking.tutor.user.phone }}</p>
+                            <p><i class="fas fa-envelope text-primary"></i> {{ booking.tutor.user.email }}</p>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <h5>Student Information</h5>
+                            <p><strong>Name:</strong> {{ booking.student.username }}</p>
+                            <p><strong>Email:</strong> {{ booking.student.email }}</p>
+                            <p><strong>Phone:</strong> {{ booking.student.phone }}</p>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5>Session Details</h5>
+                            <p><strong>Subject:</strong> {{ booking.subject }}</p>
+                            <p><strong>Hours:</strong> {{ booking.hours }} hour(s)</p>
+                            <p><strong>Date:</strong> {{ booking.schedule_date.strftime('%A, %B %d, %Y') }}</p>
+                            <p><strong>Time:</strong> {{ booking.schedule_time }}</p>
+                            {% if booking.location %}
+                            <p><strong>Location:</strong> {{ booking.location }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <h5>Payment Details</h5>
+                            <p><strong>Hourly Rate:</strong> KSH {{ booking.tutor.hourly_rate }}</p>
+                            <p><strong>Total Amount:</strong> KSH {{ "{:,.0f}".format(booking.total_amount) }}</p>
+                            <p><strong>Payment Status:</strong> 
+                                <span class="badge bg-{% if booking.payment_status == 'paid' %}success{% else %}warning{% endif %}">
+                                    {{ booking.get_payment_status_display() }}
+                                </span>
+                            </p>
+                            {% if booking.mpesa_code %}
+                            <p><strong>M-Pesa Code:</strong> {{ booking.mpesa_code }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    {% if booking.notes %}
+                    <div class="mb-4">
+                        <h5>Additional Notes</h5>
+                        <div class="bg-light p-3 rounded">
+                            {{ booking.notes }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('tutor.dashboard') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to Dashboard
+                        </a>
+                        
+                        <div>
+                            {% if booking.status == 'pending' and current_user.id == booking.tutor.user_id %}
+                            <a href="{{ url_for('tutor.confirm_booking', booking_id=booking.id) }}" class="btn btn-success">
+                                <i class="fas fa-check"></i> Confirm Booking
+                            </a>
+                            {% endif %}
+                            
+                            {% if booking.status in ['pending', 'confirmed'] %}
+                            <a href="{{ url_for('tutor.cancel_booking', booking_id=booking.id) }}" class="btn btn-danger" 
+                               onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                <i class="fas fa-times"></i> Cancel Booking
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    Booked on {{ booking.created_at.strftime('%B %d, %Y at %I:%M %p') }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTutor Kenya - Find Qualified Tutors & Students</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #10b981;
+            --secondary-dark: #059669;
+            --accent: #f59e0b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --radius: 8px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: white;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: var(--radius);
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .btn-accent:hover {
+            background-color: #e68a00;
+        }
+
+        .btn-large {
+            padding: 16px 32px;
+            font-size: 18px;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--primary);
+            font-size: 28px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            color: var(--dark);
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .mobile-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #f0f4ff 0%, #e6f7ff 100%);
+            padding-top: 140px;
+            padding-bottom: 100px;
+            overflow: hidden;
+        }
+
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .hero-content h1 span {
+            color: var(--primary);
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 30px;
+        }
+
+        .stat-item h3 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .hero-image {
+            position: relative;
+        }
+
+        .hero-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon i {
+            font-size: 30px;
+            color: white;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        /* How It Works */
+        .steps {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            position: relative;
+            margin-top: 50px;
+        }
+
+        .steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 100px;
+            right: 100px;
+            height: 2px;
+            background-color: var(--gray-light);
+            z-index: 1;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            background: white;
+            padding: 20px;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .step h4 {
+            margin-top: 10px;
+        }
+
+        /* Subjects */
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .subject-card {
+            background: white;
+            padding: 25px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .subject-card:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .subject-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .subject-card:hover i {
+            color: white;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: linear-gradient(135deg, #f8fafc 0%, #f0f4ff 100%);
+        }
+
+        .testimonial-slider {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 40px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .testimonial-text {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 30px;
+            color: var(--dark);
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .author-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .author-info h4 {
+            margin-bottom: 5px;
+        }
+
+        .author-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Pricing */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 40px 30px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .pricing-card.popular {
+            border: 2px solid var(--primary);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .pricing-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin: 20px 0;
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: var(--gray);
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .pricing-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .pricing-features li i {
+            color: var(--success);
+            margin-right: 10px;
+        }
+
+        /* CTA */
+        .cta {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .cta .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .cta .btn-secondary {
+            background: transparent;
+            color: white;
+            border-color: white;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-stats {
+                justify-content: center;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-toggle {
+                display: block;
+            }
+            
+            .mobile-nav {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: white;
+                padding: 20px;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+                display: none;
+                flex-direction: column;
+                gap: 15px;
+                z-index: 999;
+            }
+            
+            .mobile-nav.active {
+                display: flex;
+            }
+            
+            .steps::before {
+                display: none;
+            }
+            
+            .steps {
+                flex-direction: column;
+                align-items: center;
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 60px 0;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .hero {
+                padding-top: 120px;
+                padding-bottom: 60px;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-buttons .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-buttons .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <h1>Edu<span>Tutor</span></h1>
+            </div>
+            
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#subjects">Subjects</a>
+                <a href="#tutors">Find Tutors</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#testimonials">Testimonials</a>
+                <a href="#" class="btn btn-secondary">Login</a>
+                <a href="#" class="btn btn-primary">Sign Up</a>
+            </div>
+            
+            <div class="mobile-toggle" id="mobileToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+        
+        <div class="mobile-nav" id="mobileNav">
+            <a href="#home">Home</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#subjects">Subjects</a>
+            <a href="#tutors">Find Tutors</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#testimonials">Testimonials</a>
+            <a href="#" class="btn btn-secondary">Login</a>
+            <a href="#" class="btn btn-primary">Sign Up</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <h1>Connect with Expert <span>Tutors</span> in Kenya</h1>
+                <p>Find qualified tutors for any subject, from primary school to university level. Personalized 1-on-1 tutoring sessions either online or in-person across Kenya.</p>
+                
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-primary btn-large">Find a Tutor</a>
+                    <a href="#" class="btn btn-secondary btn-large">Become a Tutor</a>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <h3>500+</h3>
+                        <p>Verified Tutors</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>10,000+</h3>
+                        <p>Sessions Completed</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>4.9/5</h3>
+                        <p>Average Rating</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Tutoring Session">
+            </div>
+        </div>
+    </section>
+
+<!-- Features -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose EduTutor?</h2>
+                <p>We make learning effective, convenient, and accessible for everyone in Kenya</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <h3>Verified Tutors</h3>
+                    <p>All tutors undergo thorough background checks, ID verification, and qualification validation to ensure safety and quality.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Secure Payments</h3>
+                    <p>Pay securely via M-Pesa, card, or bank transfer. Your payment is held securely until the session is completed.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Performance Tracking</h3>
+                    <p>Monitor progress with detailed session reports, assessments, and regular feedback from your tutor.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Flexible Scheduling</h3>
+                    <p>Book sessions at your convenience, with options for online or in-person tutoring across Kenya.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Safety First</h3>
+                    <p>24/7 support, session monitoring, and secure communication channels to ensure a safe learning environment.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Curriculum-Aligned</h3>
+                    <p>Tutors are familiar with the Kenyan CBC, 8-4-4, and international curriculums to support your academic goals.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section" id="how-it-works" style="background-color: #f8fafc;">
+        <div class="container">
+            <div class="section-title">
+                <h2>How It Works</h2>
+                <p>Getting started with EduTutor is simple and straightforward</p>
+            </div>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h4>Sign Up</h4>
+                    <p>Create your free account as a student or tutor</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h4>Find Match</h4>
+                    <p>Search for tutors or students based on your needs</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h4>Book Session</h4>
+                    <p>Schedule a session at your preferred time and location</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h4>Learn & Grow</h4>
+                    <p>Start learning with expert guidance and support</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subjects -->
+    <section class="section" id="subjects">
+        <div class="container">
+            <div class="section-title">
+                <h2>Popular Subjects</h2>
+                <p>Find expert tutors for a wide range of subjects and education levels</p>
+            </div>
+            
+            <div class="subjects-grid">
+                <div class="subject-card">
+                    <i class="fas fa-calculator"></i>
+                    <h3>Mathematics</h3>
+                    <p>Primary to University Level</p>
+                </div>
+                
+                <div class="subject-card">
+                    <i class="fas fa-flask"></i>
+                    <h3>Science</h3>
+                    <p>Physics, Chemistry, Biology</p>
+                </div>
+                
+                <div class="subject-card">
+                    <i class="fas fa-language"></i>
+                    <h3>Languages</h3>
+                    <p>English, Kiswahili, French</p>
+                </div>
+                
+                <div class="subject-card">
+                    <i class="fas fa-laptop-code"></i>
+                    <h3>Computer Studies</h3>
+                    <p>Programming, ICT, Digital Skills</p>
+                </div>
+                
+                <div class="subject-card">
+                    <i class="fas fa-book"></i>
+                    <h3>Humanities</h3>
+                    <p>History, Geography, CRE</p>
+                </div>
+                
+                <div class="subject-card">
+                    <i class="fas fa-chart-bar"></i>
+                    <h3>Business</h3>
+                    <p>Commerce, Accounting, Economics</p>
+                </div>
+                
+                <div class="subject-card">
+                    <i class="fas fa-music"></i>
+                    <h3>Creative Arts</h3>
+                    <p>Music, Art, Design</p>
+                </div>
+                
+                <div class="subject-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Exam Prep</h3>
+                    <p>KCPE, KCSE, SAT, IELTS</p>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- Testimonials -->
+    <section class="section testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Success Stories</h2>
+                <p>See what students, parents, and tutors are saying about EduTutor</p>
+            </div>
+            
+            <div class="testimonial-slider">
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "My daughter improved from a D to a B in Mathematics within 3 months of tutoring with EduTutor. The tutor was patient and understood her learning style perfectly."
+                    </div>
+                    
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Sarah M.">
+                        </div>
+                        
+                        <div class="author-info">
+                            <h4>Sarah M.</h4>
+                            <p>Parent, Nairobi</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="section" id="pricing">
+        <div class="container">
+            <div class="section-title">
+                <h2>Transparent Pricing</h2>
+                <p>Choose a plan that works for you. No hidden fees, no long-term contracts.</p>
+            </div>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Pay Per Session</h3>
+                        <p>Perfect for occasional tutoring needs</p>
+                    </div>
+                    
+                    <div class="price">
+                        KSh 500<span>/hr</span>
+                    </div>
+                    
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Pay only for sessions booked</li>
+                        <li><i class="fas fa-check"></i> No subscription fee</li>
+                        <li><i class="fas fa-check"></i> Choose your own tutor</li>
+                        <li><i class="fas fa-check"></i> Flexible scheduling</li>
+                        <li><i class="fas fa-check"></i> Secure payment via M-Pesa</li>
+                    </ul>
+                    
+                    <a href="#" class="btn btn-primary">Get Started</a>
+                </div>
+                
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Most Popular</div>
+                    
+                    <div class="pricing-header">
+                        <h3>Monthly Package</h3>
+                        <p>Best value for regular tutoring</p>
+                    </div>
+                    
+                    <div class="price">
+                        KSh 8,000<span>/month</span>
+                    </div>
+                    
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Up to 20 hours per month</li>
+                        <li><i class="fas fa-check"></i> Dedicated tutor</li>
+                        <li><i class="fas fa-check"></i> Progress reports</li>
+                        <li><i class="fas fa-check"></i> Study materials included</li>
+                        <li><i class="fas fa-check"></i> Priority support</li>
+                    </ul>
+                    
+                    <a href="#" class="btn btn-accent">Get Started</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Tutor Plan</h3>
+                        <p>For tutors to grow their business</p>
+                    </div>
+                    
+                    <div class="price">
+                        15%<span>commission</span>
+                    </div>
+                    
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Only pay when you get paid</li>
+                        <li><i class="fas fa-check"></i> Student matching</li>
+                        <li><i class="fas fa-check"></i> Scheduling tools</li>
+                        <li><i class="fas fa-check"></i> Payment processing</li>
+                        <li><i class="fas fa-check"></i> Marketing support</li>
+                    </ul>
+                    
+                    <a href="#" class="btn btn-primary">Become a Tutor</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section cta">
+        <div class="container">
+            <h2>Ready to Start Your Learning Journey?</h2>
+            <p>Join thousands of students and tutors across Kenya who are achieving their academic goals with EduTutor.</p>
+            
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary btn-large">Find a Tutor Now</a>
+                <a href="#" class="btn btn-secondary btn-large">Apply as a Tutor</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <div class="logo" style="margin-bottom: 20px;">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h1 style="color: white;">Edu<span style="color: #818cf8;">Tutor</span></h1>
+                    </div>
+                    <p>Connecting students with qualified tutors across Kenya for effective, personalized learning experiences.</p>
+                    
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>For Students</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Find a Tutor</a></li>
+                        <li><a href="#">Browse Subjects</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Safety Guidelines</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>For Tutors</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Become a Tutor</a></li>
+                        <li><a href="#">Tutor Requirements</a></li>
+                        <li><a href="#">Tutor Dashboard</a></li>
+                        <li><a href="#">Payment Information</a></li>
+                        <li><a href="#">Teaching Resources</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Community Guidelines</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 EduTutor Kenya. All rights reserved. | Nairobi, Kenya</p>
+                <p>Contact: info@edututor.co.ke | Phone: +254 700 123 456</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Navigation Toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        
+        mobileToggle.addEventListener('click', () => {
+            mobileNav.classList.toggle('active');
+            
+            // Change icon
+            const icon = mobileToggle.querySelector('i');
+            if (mobileNav.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+        
+        // Close mobile nav when clicking a link
+        document.querySelectorAll('.mobile-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNav.classList.remove('active');
+                const icon = mobileToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        // Header shadow on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+            }
+        });
+    </script>
+</body>
+</html>

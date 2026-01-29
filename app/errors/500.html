@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container text-center py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="display-1 text-muted">500</h1>
+            <h2 class="mb-4">Internal Server Error</h2>
+            <p class="lead mb-4">Something went wrong on our end. Please try again later or contact support if the problem persists.</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{{ url_for('main.index') }}" class="btn btn-primary">
+                    <i class="fas fa-home"></i> Go Home
+                </a>
+                <a href="{{ url_for('main.contact') }}" class="btn btn-outline-primary">
+                    <i class="fas fa-headset"></i> Contact Support
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

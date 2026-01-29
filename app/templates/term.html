@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h1 class="mb-4">Terms of Service</h1>
+            <p class="text-muted">Effective date: {{ now.strftime('%B %d, %Y') }}</p>
+            
+            <div class="alert alert-info">
+                <strong>Important:</strong> Please read these Terms of Service carefully before using EduTutor Kenya.
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="mb-3">1. Acceptance of Terms</h4>
+                    <p>By accessing or using the EduTutor Kenya platform, you agree to be bound by these Terms of Service and our Privacy Policy. If you disagree with any part of the terms, you may not access the service.</p>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="mb-3">2. User Accounts</h4>
+                    <p>When you create an account with us, you must provide accurate, complete, and current information. You are responsible for:</p>
+                    <ul>
+                        <li>Maintaining the confidentiality of your account</li>
+                        <li>All activities that occur under your account</li>
+                        <li>Notifying us immediately of any unauthorized use</li>
+                        <li>Ensuring you logout from your account at the end of each session</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="mb-3">3. Tutor Responsibilities</h4>
+                    <p>Tutors on our platform agree to:</p>
+                    <ul>
+                        <li>Provide accurate information about qualifications and experience</li>
+                        <li>Maintain professional conduct at all times</li>
+                        <li>Honor scheduled sessions and provide adequate notice for cancellations</li>
+                        <li>Not solicit students for direct payments outside the platform</li>
+                        <li>Comply with all applicable laws and regulations</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="mb-3">4. Student Responsibilities</h4>
+                    <p>Students agree to:</p>
+                    <ul>
+                        <li>Provide accurate information when booking sessions</li>
+                        <li>Treat tutors with respect and professionalism</li>
+                        <li>Pay for sessions as scheduled</li>
+                        <li>Provide adequate notice for cancellations (24 hours minimum)</li>
+                        <li>Not engage in any fraudulent activities</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="mb-3">5. Payments and Fees</h4>
+                    <ul>
+                        <li>Tutors set their own hourly rates</li>
+                        <li>EduTutor Kenya charges a 15% service fee on all bookings</li>
+                        <li>Payments are processed securely via M-Pesa</li>
+                        <li>Refunds are issued according to our cancellation policy</li>
+                        <li>Tutors are paid weekly for completed sessions</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="mb-3">6. Cancellation Policy</h4>
+                    <ul>
+                        <li><strong>Students:</strong> May cancel up to 24 hours before session for full refund</li>
+                        <li><strong>Tutors:</strong> Must provide 48 hours notice for cancellations</li>
+                        <li><strong>No-shows:</strong> Will be charged the full session fee</li>
+                        <li><strong>Emergency cancellations:</strong> Case-by-case review</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="mb-3">7. Intellectual Property</h4>
+                    <p>All content on the EduTutor Kenya platform, including text, graphics, logos, and software, is the property of EduTutor Kenya or its content suppliers and protected by copyright laws.</p>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="mb-3">8. Limitation of Liability</h4>
+                    <p>EduTutor Kenya acts as a platform connecting tutors and students. We are not responsible for:</p>
+                    <ul>
+                        <li>The quality of tutoring services provided</li>
+                        <li>Disputes between tutors and students</li>
+                        <li>Any damages resulting from tutoring sessions</li>
+                        <li>Technical issues beyond our control</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="mb-3">9. Contact Information</h4>
+                    <p>For questions about these Terms, contact us:</p>
+                    <p>
+                        <strong>Email:</strong> legal@edututor.co.ke<br>
+                        <strong>Phone:</strong> +254 700 000 000<br>
+                        <strong>Address:</strong> Westlands, Nairobi, Kenya
+                    </p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5">
+                <p class="text-muted">By using EduTutor Kenya, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.</p>
+            </div>
+        </div>
+        </div>
+      </div>
+    {% endblock %}
