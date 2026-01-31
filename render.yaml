@@ -1,23 +1,44 @@
+# render.yaml
 services:
   - type: web
-    name: edututor-kenya
+    name: edututor-platform
     env: python
+    region: frankfurt  # Same as your database
+    plan: free
+    branch: main
+    
+    # Build configuration
     buildCommand: |
       pip install -r requirements.txt
+      pip install gunicorn
       flask db upgrade
-    startCommand: gunicorn run:app
+    
+    # Start command
+    startCommand: gunicorn wsgi:app --bind 0.0.0.0:$PORT
+    
+    # Health check
+    healthCheckPath: /health
+    autoDeploy: true
+    
+    # Environment variables (override in Render dashboard)
     envVars:
-      - key: SECRET_KEY
-        generateValue: true
-      - key: DATABASE_URL
-        fromDatabase:
-          name: edututor-db
-          property: connectionString
+      - key: FLASK_APP
+        value: wsgi.py
       - key: FLASK_ENV
         value: production
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      
+    # Disk (for uploads)
+    disk:
+      name: uploads
+      mountPath: /var/data/uploads
+      sizeGB: 1
 
 databases:
-  - name: edututor-db
-    plan: free
-    databaseName: edututor
+  - name: edututor-prod
+    databaseName: edututor_prod
     user: edututor_user
+    region: frankfurt
+    plan: free
+    ipAllowList: []  # Allow all connections

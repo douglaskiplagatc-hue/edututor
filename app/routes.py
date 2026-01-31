@@ -222,65 +222,108 @@ def terms():
 # ====================
 
 
-@auth.route("/register", methods=["GET", "POST"])
-def register():
-    """User registration"""
-    if current_user.is_authenticated:
-        return redirect(url_for("main.index"))
-
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        user = User(
-            username=form.username.data,
-            email=form.email.data,
-            phone=form.phone.data,
-            location=form.location.data,
-            user_type=form.user_type.data,
-        )
-        user.set_password(form.password.data)
-
-        db.session.add(user)
-        db.session.commit()
-
-        flash("🎉 Account created successfully! You can now log in.", "success")
-        return redirect(url_for("auth.login"))
-
-    return render_template("register.html", form=form, title="Register")
-
-
 @auth.route("/login", methods=["GET", "POST"])
 def login():
     """User login"""
     if current_user.is_authenticated:
-        return redirect(url_for("main.index"))
+        return redirect(url_for("main.dashboard"))
 
     form = LoginForm()
+
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
 
-        if user is None or not user.check_password(form.password.data):
-            flash("❌ Invalid email or password", "danger")
-            return redirect(url_for("auth.login"))
+        if user and bcrypt.check_password_hash(user.password_hash, form.password.data):
+            if user.is_active:
+                login_user(user, remember=form.remember.data)
+                next_page = request.args.get("next")
 
-        if not user.is_active:
-            flash(
-                "⚠️ Your account has been deactivated. Please contact support.",
-                "warning",
-            )
-            return redirect(url_for("auth.login"))
+                # Redirect based on user type
+                if user.user_type == "admin" or user.user_type == "super_admin":
+                    return redirect(
+                        next_page if next_page else url_for("admin.dashboard")
+                    )
+                elif user.user_type == "tutor":
+                    return redirect(
+                        next_page if next_page else url_for("tutor.dashboard")
+                    )
+                else:
+                    return redirect(
+                        next_page if next_page else url_for("student.dashboard")
+                    )
+            else:
+                flash(
+                    "Your account has been deactivated. Please contact support.",
+                    "danger",
+                )
+        else:
+            flash("Login unsuccessful. Please check email and password.", "danger")
 
-        login_user(user, remember=form.remember.data)
-        user.last_login = datetime.utcnow()
+    return render_template("auth/login.html", form=form)
+
+
+@auth.route("/register", methods=["GET", "POST"])
+def register():
+    """User registration with type selection"""
+    user_type = request.args.get("user_type", "student")
+
+    if current_user.is_authenticated:
+        return redirect(url_for("main.dashboard"))
+
+    if user_type == "student":
+        form = StudentRegistrationForm()
+        template = "auth/register_student.html"
+    elif user_type == "tutor":
+        form = TutorRegistrationForm()
+        template = "auth/register_tutor.html"
+    else:
+        # Show selection page
+        return render_template("auth/register_choice.html")
+
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode(
+            "utf-8"
+        )
+
+        user = User(
+            username=form.username.data,
+            email=form.email.data,
+            phone=form.phone.data,
+            password_hash=hashed_password,
+            full_name=form.full_name.data,
+            user_type=user_type,
+            is_active=True,
+        )
+
+        db.session.add(user)
         db.session.commit()
 
-        next_page = request.args.get("next")
-        if not next_page or url_parse(next_page).netloc != "":
-            next_page = url_for("main.index")
+        # Create tutor profile if applicable
+        if user_type == "tutor":
+            from app.models import Tutor
 
-        flash(f"👋 Welcome back, {user.username}!", "success")
-        return redirect(next_page)
+            tutor = Tutor(
+                user_id=user.id,
+                full_name=form.full_name.data,
+                subjects=",".join(form.subjects.data),
+                education_levels=",".join(form.education_levels.data),
+                hourly_rate=form.hourly_rate.data,
+                experience_years=form.experience_years.data,
+                location=form.location.data,
+                bio=form.bio.data,
+                teaching_approach=form.teaching_approach.data,
+            )
+            db.session.add(tutor)
+            db.session.commit()
 
-    return render_template("login.html", form=form, title="Login")
+        flash(
+            f"Your {user_type} account has been created! You can now log in.", "success"
+        )
+        return redirect(url_for("auth.login"))
+
+    return render_template(template, form=form, user_type=user_type)
+
+
 
 
 @auth.route("/logout")

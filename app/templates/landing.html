@@ -706,14 +706,14 @@
             </div>
             
             <div class="nav-links">
-                <a href="#home">Home</a>
-                <a href="#how-it-works">How It Works</a>
+                <a href="{{ url_for("main.landing")">Home</a>
+                <a href="{{url_for('main.landing')}}">How It Works</a>
                 <a href="#subjects">Subjects</a>
-                <a href="#tutors">Find Tutors</a>
+                <a href="{{ url_for("main.tutors")">Find Tutors</a>
                 <a href="#pricing">Pricing</a>
-                <a href="#testimonials">Testimonials</a>
-                <a href="#" class="btn btn-secondary">Login</a>
-                <a href="#" class="btn btn-primary">Sign Up</a>
+                <a href="{{ url_for("main.testimonials")">Testimonials</a>
+                <a href="{{ url_for("auth.login")" class="btn btn-secondary">Login</a>
+                <a href="{{ url_for("auth.register")" class="btn btn-primary">Sign Up</a>
             </div>
             
             <div class="mobile-toggle" id="mobileToggle">
@@ -721,16 +721,7 @@
             </div>
         </div>
         
-        <div class="mobile-nav" id="mobileNav">
-            <a href="#home">Home</a>
-            <a href="#how-it-works">How It Works</a>
-            <a href="#subjects">Subjects</a>
-            <a href="#tutors">Find Tutors</a>
-            <a href="#pricing">Pricing</a>
-            <a href="#testimonials">Testimonials</a>
-            <a href="#" class="btn btn-secondary">Login</a>
-            <a href="#" class="btn btn-primary">Sign Up</a>
-        </div>
+        
     </header>
 
     <!-- Hero Section -->
@@ -741,8 +732,8 @@
                 <p>Find qualified tutors for any subject, from primary school to university level. Personalized 1-on-1 tutoring sessions either online or in-person across Kenya.</p>
                 
                 <div class="hero-buttons">
-                    <a href="#" class="btn btn-primary btn-large">Find a Tutor</a>
-                    <a href="#" class="btn btn-secondary btn-large">Become a Tutor</a>
+                    <a href="{{ url_for("main.tutors")"class="btn btn-primary btn-large">Find a Tutor</a>
+                    <a href="{{ url_for("hometutor.become_tutor")" class="btn btn-secondary btn-large">Become a Tutor</a>
                 </div>
                 
                 <div class="hero-stats">
@@ -828,7 +819,8 @@
     </section>
 
     <!-- How It Works -->
-    <section class="section" id="how-it-works" style="background-color: #f8fafc;">
+    <section class="section" id="how-it-works" style="padding: 60px 0; background-color: #f9f9f9;"
+>>
         <div class="container">
             <div class="section-title">
                 <h2>How It Works</h2>

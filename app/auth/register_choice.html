@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="text-center mb-5">
+                <h1 class="display-5 fw-bold">Join EduTutor Kenya</h1>
+                <p class="lead">Choose how you want to join our platform</p>
+            </div>
+            
+            <div class="row g-4">
+                <!-- Student Card -->
+                <div class="col-md-6">
+                    <div class="card h-100 border-primary shadow-lg hover-shadow">
+                        <div class="card-body text-center p-5">
+                            <div class="mb-4">
+                                <i class="fas fa-user-graduate fa-4x text-primary"></i>
+                            </div>
+                            <h3 class="card-title mb-3">I'm a Student</h3>
+                            <p class="card-text mb-4">
+                                Looking for a qualified tutor to help you excel in your studies? 
+                                Join as a student to find the perfect tutor for your needs.
+                            </p>
+                            <ul class="list-unstyled mb-4 text-start">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Find qualified tutors</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Book flexible sessions</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Track your progress</li>
+                                <li><i class="fas fa-check text-success me-2"></i> Safe & secure platform</li>
+                            </ul>
+                            <a href="{{ url_for('auth.register', user_type='student') }}" class="btn btn-primary btn-lg w-100">
+                                Join as Student
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tutor Card -->
+                <div class="col-md-6">
+                    <div class="card h-100 border-warning shadow-lg hover-shadow">
+                        <div class="card-body text-center p-5">
+                            <div class="mb-4">
+                                <i class="fas fa-chalkboard-teacher fa-4x text-warning"></i>
+                            </div>
+                            <h3 class="card-title mb-3">I'm a Tutor</h3>
+                            <p class="card-text mb-4">
+                                Want to share your knowledge and earn income? 
+                                Join as a tutor to connect with students across Kenya.
+                            </p>
+                            <ul class="list-unstyled mb-4 text-start">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Set your own schedule</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Competitive earnings</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Verified student profiles</li>
+                                <li><i class="fas fa-check text-success me-2"></i> Secure payments</li>
+                            </ul>
+                            <a href="{{ url_for('auth.register', user_type='tutor') }}" class="btn btn-warning btn-lg w-100">
+                                Join as Tutor
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5">
+                <p class="text-muted">
+                    Already have an account? 
+                    <a href="{{ url_for('auth.login') }}" class="text-decoration-none">Login here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

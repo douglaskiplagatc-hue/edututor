@@ -1,11 +1,11 @@
-from flask import Flask
+# app/__init__.py - Fixed version
+from flask import Flask, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_mail import Mail
 from flask_cors import CORS
 from flask_socketio import SocketIO
-
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_caching import Cache
@@ -19,27 +19,36 @@ login_manager = LoginManager()
 mail = Mail()
 cors = CORS()
 socketio = SocketIO()
-
 limiter = Limiter(
     key_func=get_remote_address, default_limits=["200 per day", "50 per hour"]
 )
 cache = Cache()
-
-# Celery for background tasks
 celery = Celery(
     __name__, broker=os.environ.get("REDIS_URL", "redis://localhost:6379/0")
 )
 
 
-def create_app(config_class="config.ProductionConfig"):
+def create_app(config_name="development"):
+    """Create Flask application"""
+
     app = Flask(__name__)
 
-    # Load configuration
-    if isinstance(config_class, str):
-        config_class = get_config_class(config_class)
-    else:
-        config_class = os.environ.get("FLASK_ENV", "development")
-    app.config.from_object(config_class)
+    # Import config
+    from config import DevelopmentConfig, ProductionConfig, TestingConfig
+
+    # Load configuration based on name
+    if config_name == "production":
+        app.config.from_object(ProductionConfig)
+    elif config_name == "testing":
+        app.config.from_object(TestingConfig)
+    else:  # development
+        app.config.from_object(DevelopmentConfig)
+
+    # Print debug info for Termux
+    if "ANDROID_ROOT" in os.environ:
+        print(
+            f"[Termux] Database URI: {app.config.get('SQLALCHEMY_DATABASE_URI', 'NOT SET')}"
+        )
 
     # Initialize extensions
     db.init_app(app)
@@ -49,7 +58,6 @@ def create_app(config_class="config.ProductionConfig"):
     cors.init_app(app, resources={r"/*": {"origins": "*"}})
     socketio.init_app(app, cors_allowed_origins="*", async_mode="threading")
     limiter.init_app(app)
-    
     cache.init_app(app)
 
     # Setup login manager
@@ -68,10 +76,6 @@ def create_app(config_class="config.ProductionConfig"):
 
     # Setup celery
     celery.conf.update(app.config)
-
-    # Create database tables
-    with app.app_context():
-        db.create_all()
 
     return app
 
