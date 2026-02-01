@@ -9,7 +9,10 @@ from flask import (
     abort,
 )
 from flask_login import login_user, logout_user, current_user, login_required
-from werkzeug.utils import url_parse
+from urllib.parse import urlparse  # Python's built-in (works great!)
+
+# OR if you need werkzeug's specific features:
+from werkzeug.urls import url_parse  # Note: 'urls' not 'utils'
 from app import db
 from app.models import User, Tutor, Booking, Review, Message, Payment, Notification
 from app.forms import (
@@ -322,8 +325,6 @@ def register():
         return redirect(url_for("auth.login"))
 
     return render_template(template, form=form, user_type=user_type)
-
-
 
 
 @auth.route("/logout")

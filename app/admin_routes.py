@@ -38,7 +38,11 @@ from app.forms import (
 )
 from app.notifications import PushNotificationService
 from datetime import datetime, timedelta
-from werkzeug.utils import url_parse
+from urllib.parse import urlparse  # Python's built-in (works great!)
+
+# OR if you need werkzeug's specific features:
+from werkzeug.urls import url_parse  # Note: 'urls' not 'utils'
+
 import json
 from io import BytesIO
 import csv
