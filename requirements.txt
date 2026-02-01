@@ -20,3 +20,21 @@ requests==2.31.0
 Werkzeug==2.3.7
 Pillow>=10.2.0,<11
 Flask-WTF==1.2.2
+Flask-Bcrypt==1.0.1
+Flask-JWT-Extended==4.5.3  # <-- This is what you're missing!
+
+# Database
+psycopg2-binary==2.9.9
+SQLAlchemy==2.0.23
+alembic==1.12.1
+
+# Authentication & Security
+
+itsdangerous==2.1.2
+Jinja2==3.1.2
+bcrypt==4.0.1
+
+# Forms & Validation
+WTForms==3.1.0
+email-validator==2.1.0
+python-dateutil==2.8.2
