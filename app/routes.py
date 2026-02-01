@@ -9,7 +9,7 @@ from flask import (
     abort,
 )
 from flask_login import login_user, logout_user, current_user, login_required
-from werkzeug.urls import url_parse
+from werkzeug.utils import url_parse
 from app import db
 from app.models import User, Tutor, Booking, Review, Message, Payment, Notification
 from app.forms import (
