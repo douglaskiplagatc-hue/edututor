@@ -50,7 +50,7 @@
                 <div class="card h-100 shadow-sm">
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-3">
-                            <img src="{{ tutor.profile_picture or url_for('static', filename='images/default-avatar.png') }}" 
+                            <img src="{{ tutor.profile_picture or url_for('static', filename='''images/default-avatar.png') }}" 
                                  class="rounded-circle me-3" width="70" height="70" alt="{{ tutor.full_name }}">
                             <div>
                                 <h5 class="card-title mb-0">{{ tutor.full_name }}</h5>
@@ -59,7 +59,7 @@
                                 </p>
                                 <div class="text-warning">
                                     {% for i in range(5) %}
-                                        {% if i < tutor.rating|int %}
+                                        {% if i < tutor.rating|in(t)%}
                                             <i class="fas fa-star"></i>
                                         {% else %}
                                             <i class="far fa-star"></i>
@@ -72,10 +72,10 @@
                         
                         <p class="card-text">
                             <strong>Subjects:</strong> {{ tutor.subjects }}<br>
-                            <strong>Level:</strong> {{ tutor.level|title }}<br>
+                            <strong>Level:</strong> {{ tutor.level|titl(e)}}<br>
                             <strong>Experience:</strong> {{ tutor.experience_years }} years<br>
                             <strong>Rate:</strong> KSH {{ tutor.hourly_rate }}/hour<br>
-                            <strong>Mode:</strong> {{ tutor.teaching_mode|replace('-', ' ')|title }}
+                            <strong>Mode:</strong> {{ tutor.teaching_mode|replac(e)('-', ' ')|titl(e)}}
                         </p>
                         
                         <p class="card-text">{{ tutor.bio[:100] }}...</p>

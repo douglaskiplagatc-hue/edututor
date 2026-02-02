@@ -17,14 +17,14 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 {{ form.name.label(class="form-label") }}
-                                {{ form.name(class="form-control" + (" is-invalid" if form.name.errors else "")) }}
+                                {{ form.name(class="form-control"  ~ (" is-invalid" if form.name.errors else "")) }}
                                 {% for error in form.name.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
                             </div>
                             <div class="col-md-6">
                                 {{ form.email.label(class="form-label") }}
-                                {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
+                                {{ form.email(class="form-control"  ~ (" is-invalid" if form.email.errors else "")) }}
                                 {% for error in form.email.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
@@ -33,7 +33,7 @@
                         
                         <div class="mb-3">
                             {{ form.subject.label(class="form-label") }}
-                            {{ form.subject(class="form-control" + (" is-invalid" if form.subject.errors else "")) }}
+                            {{ form.subject(class="form-control"  ~ (" is-invalid" if form.subject.errors else "")) }}
                             <small class="text-muted">e.g., Booking Issue, Tutor Inquiry, Technical Support</small>
                             {% for error in form.subject.errors %}
                                 <div class="invalid-feedback">{{ error }}</div>
@@ -42,7 +42,7 @@
                         
                         <div class="mb-3">
                             {{ form.message.label(class="form-label") }}
-                            {{ form.message(class="form-control" + (" is-invalid" if form.message.errors else ""), rows=5) }}
+                            {{ form.message(class="form-control"  ~ (" is-invalid" if form.message.errors else ""), rows=5) }}
                             {% for error in form.message.errors %}
                                 <div class="invalid-feedback">{{ error }}</div>
                             {% endfor %}

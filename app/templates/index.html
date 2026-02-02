@@ -83,13 +83,13 @@
                     <div class="card h-100 shadow-sm">
                         <div class="card-body">
                             <div class="d-flex align-items-center mb-3">
-                                <img src="{{ url_for('static', filename='uploads/' + tutor.user.profile_picture) if tutor.user.profile_picture != 'default-avatar.png' else url_for('static', filename='images/default-avatar.png') }}" 
+                                <img src="{{ url_for('static', filename='''uploads/'  ~ tutor.user.profile_picture) if tutor.user.profile_picture != 'default-avatar.png' else url_for('static', filename='''images/default-avatar.png') }}" 
                                      class="rounded-circle me-3" width="60" height="60" alt="{{ tutor.full_name }}">
                                 <div>
                                     <h5 class="card-title mb-0">{{ tutor.full_name }}</h5>
                                     <div class="text-warning">
                                         {% for i in range(5) %}
-                                            {% if i < tutor.rating|int %}
+                                            {% if i < tutor.rating|in(t)%}
                                                 <i class="fas fa-star"></i>
                                             {% else %}
                                                 <i class="far fa-star"></i>
@@ -100,7 +100,7 @@
                                 </div>
                             </div>
                             <p class="card-text">
-                                <i class="fas fa-book text-primary"></i> {{ tutor.subjects[:30] }}{% if tutor.subjects|length > 30 %}...{% endif %}<br>
+                                <i class="fas fa-book text-primary"></i> {{ tutor.subjects[:30] }}{% if tutor.subjects|lengt(h)> 30 %}...{% endif %}<br>
                                 <i class="fas fa-map-marker-alt text-primary"></i> {{ tutor.user.location }}<br>
                                 <i class="fas fa-clock text-primary"></i> {{ tutor.experience_years }} years experience<br>
                                 <i class="fas fa-money-bill-wave text-primary"></i> KSH {{ tutor.hourly_rate }}/hr

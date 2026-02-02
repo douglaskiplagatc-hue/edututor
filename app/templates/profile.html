@@ -6,7 +6,7 @@
         <div class="col-md-4">
             <div class="card mb-4">
                 <div class="card-body text-center">
-                    <img src="{{ url_for('static', filename='uploads/' + current_user.profile_picture) if current_user.profile_picture != 'default-avatar.png' else url_for('static', filename='images/default-avatar.png') }}" 
+                    <img src="{{ url_for('static', filename='''uploads/'  ~ current_user.profile_picture) if current_user.profile_picture != 'default-avatar.png' else url_for('static', filename='''images/default-avatar.png') }}" 
                          class="rounded-circle mb-3" width="150" height="150" alt="Profile">
                     <h4>{{ current_user.username }}</h4>
                     <p class="text-muted">{{ current_user.get_user_type_display() }}</p>
@@ -48,14 +48,14 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 {{ form.username.label(class="form-label") }}
-                                {{ form.username(class="form-control" + (" is-invalid" if form.username.errors else "")) }}
+                                {{ form.username(class="form-control"  ~ (" is-invalid" if form.username.errors else "")) }}
                                 {% for error in form.username.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
                             </div>
                             <div class="col-md-6">
                                 {{ form.email.label(class="form-label") }}
-                                {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
+                                {{ form.email(class="form-control"  ~ (" is-invalid" if form.email.errors else "")) }}
                                 {% for error in form.email.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
@@ -65,14 +65,14 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 {{ form.phone.label(class="form-label") }}
-                                {{ form.phone(class="form-control" + (" is-invalid" if form.phone.errors else "")) }}
+                                {{ form.phone(class="form-control"  ~ (" is-invalid" if form.phone.errors else "")) }}
                                 {% for error in form.phone.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
                             </div>
                             <div class="col-md-6">
                                 {{ form.location.label(class="form-label") }}
-                                {{ form.location(class="form-select" + (" is-invalid" if form.location.errors else "")) }}
+                                {{ form.location(class="form-select"  ~ (" is-invalid" if form.location.errors else "")) }}
                                 {% for error in form.location.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
@@ -81,7 +81,7 @@
                         
                         <div class="mb-4">
                             {{ form.profile_picture.label(class="form-label") }}
-                            {{ form.profile_picture(class="form-control" + (" is-invalid" if form.profile_picture.errors else "")) }}
+                            {{ form.profile_picture(class="form-control"  ~ (" is-invalid" if form.profile_picture.errors else "")) }}
                             <small class="text-muted">Upload a profile picture (JPG, PNG, max 5MB)</small>
                             {% for error in form.profile_picture.errors %}
                                 <div class="invalid-feedback">{{ error }}</div>
@@ -111,7 +111,7 @@
                             <p class="mb-0"><strong>Rating:</strong> 
                                 <span class="text-warning">
                                     {% for i in range(5) %}
-                                        {% if i < tutor_profile.rating|int %}
+                                        {% if i < tutor_profile.rating|in(t)%}
                                             <i class="fas fa-star"></i>
                                         {% else %}
                                             <i class="far fa-star"></i>

@@ -19,7 +19,7 @@
                                 
                                 <div class="mb-3">
                                     {{ form.username.label(class="form-label") }}
-                                    {{ form.username(class="form-control" + (" is-invalid" if form.username.errors else "")) }}
+                                    {{ form.username(class="form-control"  ~ (" is-invalid" if form.username.errors else "")) }}
                                     {% for error in form.username.errors %}
                                         <div class="invalid-feedback">{{ error }}</div>
                                     {% endfor %}
@@ -27,7 +27,7 @@
                                 
                                 <div class="mb-3">
                                     {{ form.email.label(class="form-label") }}
-                                    {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
+                                    {{ form.email(class="form-control"  ~ (" is-invalid" if form.email.errors else "")) }}
                                     {% for error in form.email.errors %}
                                         <div class="invalid-feedback">{{ error }}</div>
                                     {% endfor %}
@@ -35,7 +35,7 @@
                                 
                                 <div class="mb-3">
                                     {{ form.phone.label(class="form-label") }}
-                                    {{ form.phone(class="form-control" + (" is-invalid" if form.phone.errors else "")) }}
+                                    {{ form.phone(class="form-control"  ~ (" is-invalid" if form.phone.errors else "")) }}
                                     {% for error in form.phone.errors %}
                                         <div class="invalid-feedback">{{ error }}</div>
                                     {% endfor %}
@@ -43,7 +43,7 @@
                                 
                                 <div class="mb-3">
                                     {{ form.password.label(class="form-label") }}
-                                    {{ form.password(class="form-control" + (" is-invalid" if form.password.errors else "")) }}
+                                    {{ form.password(class="form-control"  ~ (" is-invalid" if form.password.errors else "")) }}
                                     {% for error in form.password.errors %}
                                         <div class="invalid-feedback">{{ error }}</div>
                                     {% endfor %}
@@ -51,7 +51,7 @@
                                 
                                 <div class="mb-3">
                                     {{ form.confirm_password.label(class="form-label") }}
-                                    {{ form.confirm_password(class="form-control" + (" is-invalid" if form.confirm_password.errors else "")) }}
+                                    {{ form.confirm_password(class="form-control"  ~ (" is-invalid" if form.confirm_password.errors else "")) }}
                                     {% for error in form.confirm_password.errors %}
                                         <div class="invalid-feedback">{{ error }}</div>
                                     {% endfor %}
@@ -64,7 +64,7 @@
                                 
                                 <div class="mb-3">
                                     {{ form.full_name.label(class="form-label") }}
-                                    {{ form.full_name(class="form-control" + (" is-invalid" if form.full_name.errors else "")) }}
+                                    {{ form.full_name(class="form-control"  ~ (" is-invalid" if form.full_name.errors else "")) }}
                                     {% for error in form.full_name.errors %}
                                         <div class="invalid-feedback">{{ error }}</div>
                                     {% endfor %}
@@ -72,7 +72,7 @@
                                 
                                 <div class="mb-3">
                                     {{ form.grade_level.label(class="form-label") }}
-                                    {{ form.grade_level(class="form-select" + (" is-invalid" if form.grade_level.errors else "")) }}
+                                    {{ form.grade_level(class="form-select"  ~ (" is-invalid" if form.grade_level.errors else "")) }}
                                     {% for error in form.grade_level.errors %}
                                         <div class="invalid-feedback">{{ error }}</div>
                                     {% endfor %}
@@ -80,7 +80,7 @@
                                 
                                 <div class="mb-3">
                                     {{ form.subjects.label(class="form-label") }}
-                                    {{ form.subjects(class="form-select" + (" is-invalid" if form.subjects.errors else ""), size="5") }}
+                                    {{ form.subjects(class="form-select"  ~ (" is-invalid" if form.subjects.errors else ""), size="5") }}
                                     {% for error in form.subjects.errors %}
                                         <div class="invalid-feedback">{{ error }}</div>
                                     {% endfor %}
@@ -89,14 +89,14 @@
                                 
                                 <div class="mb-3">
                                     {{ form.location.label(class="form-label") }}
-                                    {{ form.location(class="form-control" + (" is-invalid" if form.location.errors else "")) }}
+                                    {{ form.location(class="form-control"  ~ (" is-invalid" if form.location.errors else "")) }}
                                     {% for error in form.location.errors %}
                                         <div class="invalid-feedback">{{ error }}</div>
                                     {% endfor %}
                                 </div>
                                 
                                 <div class="mb-3 form-check">
-                                    {{ form.terms(class="form-check-input" + (" is-invalid" if form.terms.errors else "")) }}
+                                    {{ form.terms(class="form-check-input"  ~ (" is-invalid" if form.terms.errors else "")) }}
                                     {{ form.terms.label(class="form-check-label") }}
                                     {% for error in form.terms.errors %}
                                         <div class="invalid-feedback">{{ error }}</div>

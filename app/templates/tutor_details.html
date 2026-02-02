@@ -7,7 +7,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-3 text-center">
-                    <img src="{{ tutor.profile_picture or url_for('static', filename='images/default-avatar.png') }}" 
+                    <img src="{{ tutor.profile_picture or url_for('static', filename='''images/default-avatar.png') }}" 
                          class="rounded-circle mb-3" width="150" height="150" alt="{{ tutor.full_name }}">
                     <div class="mt-3">
                         <span class="badge bg-{% if tutor.is_verified %}success{% else %}warning{% endif %}">
@@ -25,13 +25,13 @@
                     <p class="lead mb-3">
                         <i class="fas fa-map-marker-alt text-primary"></i> {{ tutor.user.location }} &nbsp;|&nbsp;
                         <i class="fas fa-book text-primary"></i> {{ tutor.subjects }} &nbsp;|&nbsp;
-                        <i class="fas fa-graduation-cap text-primary"></i> {{ tutor.level|title }}
+                        <i class="fas fa-graduation-cap text-primary"></i> {{ tutor.level|titl(e)}}
                     </p>
                     
                     <div class="d-flex align-items-center mb-3">
                         <div class="text-warning me-3">
                             {% for i in range(5) %}
-                                {% if i < tutor.rating|int %}
+                                {% if i < tutor.rating|in(t)%}
                                     <i class="fas fa-star"></i>
                                 {% else %}
                                     <i class="far fa-star"></i>
@@ -56,7 +56,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="info-box p-3 bg-light rounded">
-                                <h5 class="text-primary mb-1">{{ tutor.teaching_mode|replace('-', ' ')|title }}</h5>
+                                <h5 class="text-primary mb-1">{{ tutor.teaching_mode|replac(e)('-', ' ')|titl(e)}}</h5>
                                 <small>Teaching Mode</small>
                             </div>
                         </div>
@@ -97,7 +97,7 @@
                             <a class="nav-link" data-bs-toggle="tab" href="#availability">Availability</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#reviews">Reviews ({{ reviews|length }})</a>
+                            <a class="nav-link" data-bs-toggle="tab" href="#reviews">Reviews ({{ reviews|lengt(h)}})</a>
                         </li>
                     </ul>
                 </div>
@@ -137,15 +137,15 @@
                             
                             <div>
                                 <h5>Teaching Levels</h5>
-                                <p>{{ tutor.level|title }}</p>
+                                <p>{{ tutor.level|titl(e)}}</p>
                             </div>
                         </div>
                         
                         <!-- Availability Tab -->
                         <div class="tab-pane fade" id="availability">
                             <h4>Schedule & Availability</h4>
-                            <p><strong>Availability:</strong> {{ tutor.availability|replace('-', ' ')|title }}</p>
-                            <p><strong>Teaching Mode:</strong> {{ tutor.teaching_mode|replace('-', ' ')|title }}</p>
+                            <p><strong>Availability:</strong> {{ tutor.availability|replac(e)('-', ' ')|titl(e)}}</p>
+                            <p><strong>Teaching Mode:</strong> {{ tutor.teaching_mode|replac(e)('-', ' ')|titl(e)}}</p>
                             
                             <h5 class="mt-4">Typical Schedule</h5>
                             <div class="table-responsive">

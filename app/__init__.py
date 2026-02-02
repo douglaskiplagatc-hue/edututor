@@ -121,7 +121,7 @@ def register_error_handlers(app):
     @app.errorhandler(500)
     def internal_error(error):
         db.session.rollback()
-        return render_template("errors/500.html"), 500
+        return render_template("./errors/500.html"), 500
 
     @app.errorhandler(403)
     def forbidden_error(error):

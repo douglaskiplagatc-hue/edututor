@@ -12,7 +12,7 @@
                     <div class="alert alert-info mb-4">
                         <div class="d-flex">
                             <div class="me-3">
-                                <img src="{{ tutor.profile_picture or url_for('static', filename='images/default-avatar.png') }}" 
+                                <img src="{{ tutor.profile_picture or url_for('static', filename='''images/default-avatar.png') }}" 
                                      class="rounded-circle" width="60" height="60" alt="{{ tutor.full_name }}">
                             </div>
                             <div>
@@ -30,7 +30,7 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 {{ form.subject.label(class="form-label") }}
-                                {{ form.subject(class="form-control" + (" is-invalid" if form.subject.errors else "")) }}
+                                {{ form.subject(class="form-control"  ~ (" is-invalid" if form.subject.errors else "")) }}
                                 <small class="text-muted">e.g., Algebra, Calculus, Organic Chemistry</small>
                                 {% for error in form.subject.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
@@ -38,7 +38,7 @@
                             </div>
                             <div class="col-md-6">
                                 {{ form.hours.label(class="form-label") }}
-                                {{ form.hours(class="form-control" + (" is-invalid" if form.hours.errors else "")) }}
+                                {{ form.hours(class="form-control"  ~ (" is-invalid" if form.hours.errors else "")) }}
                                 <small class="text-muted">Number of hours per session</small>
                                 {% for error in form.hours.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
@@ -49,14 +49,14 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 {{ form.schedule_date.label(class="form-label") }}
-                                {{ form.schedule_date(class="form-control" + (" is-invalid" if form.schedule_date.errors else "")) }}
+                                {{ form.schedule_date(class="form-control"  ~ (" is-invalid" if form.schedule_date.errors else "")) }}
                                 {% for error in form.schedule_date.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
                             </div>
                             <div class="col-md-6">
                                 {{ form.schedule_time.label(class="form-label") }}
-                                {{ form.schedule_time(class="form-select" + (" is-invalid" if form.schedule_time.errors else "")) }}
+                                {{ form.schedule_time(class="form-select"  ~ (" is-invalid" if form.schedule_time.errors else "")) }}
                                 {% for error in form.schedule_time.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
@@ -65,7 +65,7 @@
                         
                         <div class="mb-3">
                             {{ form.location.label(class="form-label") }}
-                            {{ form.location(class="form-control" + (" is-invalid" if form.location.errors else ""), placeholder="e.g., Your home address, school, or leave blank for online") }}
+                            {{ form.location(class="form-control"  ~ (" is-invalid" if form.location.errors else ""), placeholder="e.g., Your home address, school, or leave blank for online") }}
                             <small class="text-muted">
                                 {% if tutor.teaching_mode == 'online' %}
                                 This tutor only offers online sessions
@@ -82,7 +82,7 @@
                         
                         <div class="mb-4">
                             {{ form.notes.label(class="form-label") }}
-                            {{ form.notes(class="form-control" + (" is-invalid" if form.notes.errors else ""), rows=3, placeholder="Any special requirements, topics to cover, or notes for the tutor...") }}
+                            {{ form.notes(class="form-control"  ~ (" is-invalid" if form.notes.errors else ""), rows=3, placeholder="Any special requirements, topics to cover, or notes for the tutor...") }}
                             {% for error in form.notes.errors %}
                                 <div class="invalid-feedback">{{ error }}</div>
                             {% endfor %}
@@ -103,11 +103,11 @@
                                     </tr>
                                     <tr>
                                         <td>Platform Fee (10%):</td>
-                                        <td class="text-end">KSH {{ (tutor.hourly_rate * (form.hours.data or 1) * 0.1)|int }}</td>
+                                        <td class="text-end">KSH {{ (tutor.hourly_rate * (form.hours.data or 1) * 0.1)|in(t)}}</td>
                                     </tr>
                                     <tr class="fw-bold">
                                         <td>Total Amount:</td>
-                                        <td class="text-end text-success">KSH {{ (tutor.hourly_rate * (form.hours.data or 1) * 1.1)|int }}</td>
+                                        <td class="text-end text-success">KSH {{ (tutor.hourly_rate * (form.hours.data or 1) * 1.1)|in(t)}}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -130,7 +130,7 @@
                 <div class="card-body">
                     <div class="text-warning mb-2">
                         {% for i in range(5) %}
-                            {% if i < tutor.rating|int %}
+                            {% if i < tutor.rating|in(t)%}
                                 <i class="fas fa-star"></i>
                             {% else %}
                                 <i class="far fa-star"></i>
@@ -140,8 +140,8 @@
                     </div>
                     
                     <p><strong>Experience:</strong> {{ tutor.experience_years }} years</p>
-                    <p><strong>Teaching Mode:</strong> {{ tutor.teaching_mode|replace('-', ' ')|title }}</p>
-                    <p><strong>Availability:</strong> {{ tutor.availability|replace('-', ' ')|title }}</p>
+                    <p><strong>Teaching Mode:</strong> {{ tutor.teaching_mode|replac(e)('-', ' ')|titl(e)}}</p>
+                    <p><strong>Availability:</strong> {{ tutor.availability|replac(e)('-', ' ')|titl(e)}}</p>
                     
                     <hr>
                     
